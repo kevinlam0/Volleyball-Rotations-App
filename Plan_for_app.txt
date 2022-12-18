@@ -12,6 +12,7 @@ User inputs:
         add more option for players on bench
             set those players for a position
     Click on icons to sub
+        according to the positions
 
 Serve receive feature:
     Be able to decide when to sub when rotating from front row to back row
