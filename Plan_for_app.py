@@ -1,2 +1,0 @@
-# Plan for App 
-# 
