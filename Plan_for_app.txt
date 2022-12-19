@@ -22,4 +22,4 @@ Base position feature:
 
 
 App features:
-    save all 6 rotations
+    Option to log in, in order to save rotations and players
