@@ -9,3 +9,5 @@ body{
     padding-right: 20%;
     margin: auto;
   }
+
+form *{padding-bottom: 10px;}
