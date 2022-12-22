@@ -12,7 +12,8 @@ body{
   }
 
 img{
-  Padding: 10px;
+    align-items: center;
+    Padding: 10px;
 }
 
 form *{margin-bottom: 10px;}
