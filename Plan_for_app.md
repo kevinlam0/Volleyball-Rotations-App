@@ -65,19 +65,14 @@ Ask for username, password, have login button
 
 
 ### User inputs:
-    Decides between 5-1, 6-2, 4-2, Freestyle
-        lists out the positions for name inputs for starters
-        add more option for players on bench
-            set those players for a position
-    Click on icons to sub
-        according to the positions
+Decides between 5-1, 6-2, 4-2, Freestyle lists out the positions for name inputs for starters add more option for players on bench set those players for a position
+Click on icons to sub according to the positions
 
 ### Serve receive feature:
-    Be able to decide when to sub when rotating from front row to back row
-        use another option that asks if they will play front row, back row, or both on the logic of volleyball
+Be able to decide when to sub when rotating from front row to back row use another option that asks if they will play front row, back row, or both on the logic of volleyball
 
 ### Base position feature:
 
 
 ### App features:
-    Option to log in, in order to save rotations and players
+Option to log in, in order to save rotations and players
