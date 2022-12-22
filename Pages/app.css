@@ -11,4 +11,8 @@ body{
     margin: auto;
   }
 
+img{
+  Padding: 10px;
+}
+
 form *{margin-bottom: 10px;}
