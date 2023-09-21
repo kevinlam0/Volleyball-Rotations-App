@@ -1,10 +1,11 @@
-import Player
+from Player import Player
 class Volleyball_Rotations_Generator:
     homeRotation = None
     serveReceive = None
     setter, oh1, oh2, lib, mb1, mb2, rs = "", "", "", "", "", "", ""
-    quadrants = None
+    quadrants: dict
     maxLengthOfName = 0
+    sittingMiddle: Player
     
     def __init__(self):
         self.homeRotation = None
@@ -19,9 +20,10 @@ class Volleyball_Rotations_Generator:
         """
         self.setter, self.oh1, self.oh2 = Player(input("Who is your starting Setter?: "), "S"), Player(input("Who is your starting Outside Hitter 1?: "), "OH1"), Player(input("Who is your starting Outside Hitter 2?: "), "OH2")
         self.lib, self.mb1, self.mb2, self.rs = Player(input("Who is your starting Libero?: "),"L") , Player(input("Who is your starting Middle Blocker 1?: "), "MB1"), Player(input("Who is your starting Middle Blocker 2?: "), "MB2"), Player(input("Who is your starting Right Side?: "), "RS")
-        self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb1, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
-        
-        word_list = [self.setter, self.oh1, self.oh2, self.rs, self.mb1, self.mb2, self.lib]
+        self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
+        self.sittingMiddle = self.mb1
+
+        word_list = [self.setter.getName(), self.oh1.getName(), self.oh2.getName(), self.rs.getName(), self.mb1.getName(), self.mb2.getName(), self.lib.getName()]
         for word in word_list:
             if len(word) > self.maxLengthOfName:
                 self.maxLengthOfName = len(word)
@@ -38,6 +40,10 @@ class Volleyball_Rotations_Generator:
             self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
         # Put the first person in the missing quadrants
         self.quadrants["Q6"] = first
+        if self.quadrants.get("Q4").getPosition() == "L":
+            self.quadrants["Q4"] = self.sittingMiddle
+            self.sittingMiddle = self.quadrants.get("Q1")
+            self.quadrants["Q1"] = self.lib
         
     def makeHomeRotation(self):
         ans = []
@@ -46,8 +52,8 @@ class Volleyball_Rotations_Generator:
         while count > 0:
             frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
             backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
-            frontString = "|  {a}  |  {b}  |  {c}  |".format(a = frontRow[0], b = frontRow[1], c= frontRow[2])
-            backString = "|  {a}  |  {b}  |  {c}  |".format(a = backRow[0], b = backRow[1], c = backRow[2])
+            frontString = "|  {a}  |  {b}  |  {c}  |".format(a = frontRow[0].getName(), b = frontRow[1].getName(), c= frontRow[2].getName())
+            backString = "|  {a}  |  {b}  |  {c}  |".format(a = backRow[0].getName(), b = backRow[1].getName(), c = backRow[2].getName())
             ans.append((frontString, backString))
             self.rotate()
             count -= 1
@@ -57,7 +63,7 @@ class Volleyball_Rotations_Generator:
         
 if __name__ == "__main__":
     generator = Volleyball_Rotations_Generator()
-    print("|  Name  |  helllo jds  |  fdsjkfls  |")
+    # print("|  Name  |  helllo jds  |  fdsjkfls  |")
     generator.inputPlayers()
     
     rotations = generator.makeHomeRotation()
