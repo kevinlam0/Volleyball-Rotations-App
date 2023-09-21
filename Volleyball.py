@@ -1,3 +1,4 @@
+import Player
 class Volleyball_Rotations_Generator:
     homeRotation = None
     serveReceive = None
@@ -11,8 +12,13 @@ class Volleyball_Rotations_Generator:
 
         
     def inputPlayers(self):
-        self.setter, self.oh1, self.oh2 = input("Who is your starting Setter?: "), input("Who is your starting Outside Hitter 1?: "), input("Who is your starting Outside Hitter 2?: ")
-        self.lib, self.mb1, self.mb2, self.rs = input("Who is your starting Libero?: "), input("Who is your starting Middle Blocker 1?: "), input("Who is your starting Middle Blocker 1?: "), input("Who is your starting Right Side?: ")
+        """
+        Gets the starting line up.
+        Fills in the quadrants defaulted at rotation 1.
+        Gets the max length of the names for formatting reasons. 
+        """
+        self.setter, self.oh1, self.oh2 = Player(input("Who is your starting Setter?: "), "S"), Player(input("Who is your starting Outside Hitter 1?: "), "OH1"), Player(input("Who is your starting Outside Hitter 2?: "), "OH2")
+        self.lib, self.mb1, self.mb2, self.rs = Player(input("Who is your starting Libero?: "),"L") , Player(input("Who is your starting Middle Blocker 1?: "), "MB1"), Player(input("Who is your starting Middle Blocker 2?: "), "MB2"), Player(input("Who is your starting Right Side?: "), "RS")
         self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb1, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
         
         word_list = [self.setter, self.oh1, self.oh2, self.rs, self.mb1, self.mb2, self.lib]
@@ -22,6 +28,9 @@ class Volleyball_Rotations_Generator:
         
     
     def rotate(self):
+        """
+        Rotates the players
+        """
         # Store the first person
         first = self.quadrants.get("Q1")
         # Shift all players over from the next higher quadrant
