@@ -15,8 +15,8 @@ class Player:
         elif "back" in row.lower():
             self.row = "Back"
         
-        if not row == "Both" and sub == None and not lib:
-            self.findSub(row)
+        if not self.row == "Both" and sub == None and not lib:
+            self.findSub(self.row)
         else:
             self.sub = sub
         

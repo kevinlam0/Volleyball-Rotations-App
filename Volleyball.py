@@ -18,12 +18,22 @@ class Volleyball_Rotations_Generator:
         Fills in the quadrants defaulted at rotation 1.
         Gets the max length of the names for formatting reasons. 
         """
+        sub = input("Will there subs? (i.e. More than 7 starting players) (y/n): ")
         
-        self.setter= Player(name = input("Who is your starting Setter?: "), pos = "S", row = input("Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "))
-        self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = input("Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "))
+        if "y" in sub.lower():
+            row_string = "Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "
+            self.setter= Player(name = input("Who is your starting Setter?: "), pos = "S", row = input(row_string))
+            self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = input(row_string))
+            
+            self.oh1 = Player(name = input("Who is your starting Outside Hitter 1?: "), pos = "OH1", row = input(row_string))
+            self.oh2 = Player(name = input("Who is your starting Outside Hitter 2?: "), pos= "OH2", row = input(row_string))
         
-        self.oh1 = Player(name = input("Who is your starting Outside Hitter 1?: "), pos = "OH1", row = input("Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "))
-        self.oh2 = Player(name = input("Who is your starting Outside Hitter 2?: "), pos= "OH2", row = input("Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "))
+        else:
+            self.setter= Player(name = input("Who is your starting Setter?: "), pos = "S", row = "Both")
+            self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = "Both")
+            
+            self.oh1 = Player(name = input("Who is your starting Outside Hitter 1?: "), pos = "OH1", row = "Both")
+            self.oh2 = Player(name = input("Who is your starting Outside Hitter 2?: "), pos= "OH2", row = "Both")
         
         self.lib = Player(name = input("Who is your starting Libero?: "),pos = "L", row = "Back", lib = True)
         self.mb1 = Player(name = input("Who is your starting Middle Blocker 1?: "), pos = "MB1", row = "Front", lib = True)
@@ -43,11 +53,14 @@ class Volleyball_Rotations_Generator:
         """
         Rotates the players
         """
+        
         # Store the first person
         first = self.quadrants.get("Q1")
+        
         # Shift all players over from the next higher quadrant
         for i in range(1, 6):
             self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
+        
         # Put the first person in the missing quadrants
         self.quadrants["Q6"] = first
         
@@ -57,7 +70,7 @@ class Volleyball_Rotations_Generator:
             self.sittingMiddle = self.quadrants.get("Q1")
             self.quadrants["Q1"] = self.lib
     
-        
+        # Adding subbing of front row and back row    
         elif self.quadrants.get("Q1").getRow() == "Front":
             sub: Player = self.quadrants.get("Q1").getSub()
             self.quadrants["Q1"] = sub
@@ -76,33 +89,30 @@ class Volleyball_Rotations_Generator:
                 backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
                 frontString = "|  {a}  |  {b}  |  {c}  |".format(a = frontRow[0].getName(), b = frontRow[1].getName(), c= frontRow[2].getName())
                 backString = "|  {a}  |  {b}  |  {c}  |".format(a = backRow[0].getName(), b = backRow[1].getName(), c = backRow[2].getName())
-            
-            except:
-                print(backString)
-                print("Something")
+
+            except: 
+                print("Something wrong occurred while creating strings of front-row and back-row.")
+                
             ans.append((frontString, backString))
             self.rotate()
-    
             count -= 1
             
         count = 1
+        print("\n")
         for rotation in ans:
             frontRow, backRow = rotation
             print("Rotation {a}".format(a = count))
             print(frontRow)
-            print(backRow)
-            print("\n")
+            print(backRow + "\n")
             count += 1
             
         
         
 if __name__ == "__main__":
     generator = Volleyball_Rotations_Generator()
-    # print("|  Name  |  helllo jds  |  fdsjkfls  |")
     generator.inputPlayers()
-    
     generator.makeHomeRotation()
-    # print(generator.quadrants.get("Q1").getPosition())
+
     
     
     
