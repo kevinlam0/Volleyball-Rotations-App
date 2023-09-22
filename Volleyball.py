@@ -8,7 +8,7 @@ class Volleyball_Rotations_Generator:
     sittingMiddle: Player
     
     def __init__(self):
-        self.homeRotation = None
+        self.homeRotation = []
         self.serveReceive = None
 
         
@@ -19,10 +19,10 @@ class Volleyball_Rotations_Generator:
         Gets the max length of the names for formatting reasons. 
         """
         sub = input("Will there subs? (i.e. More than 7 starting players) (y/n): ")
+        row_string = "Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "
         
         if "y" in sub.lower():
-            row_string = "Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "
-            self.setter= Player(name = input("Who is your starting Setter?: "), pos = "S", row = input(row_string))
+            self.setter = Player(name = input("Who is your starting Setter?: "), pos = "S", row = input(row_string))
             self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = input(row_string))
             
             self.oh1 = Player(name = input("Who is your starting Outside Hitter 1?: "), pos = "OH1", row = input(row_string))
@@ -48,7 +48,6 @@ class Volleyball_Rotations_Generator:
         #     if len(word) > self.maxLengthOfName:
         #         self.maxLengthOfName = len(word)
         
-    
     def rotate(self):
         """
         Rotates the players
@@ -71,18 +70,16 @@ class Volleyball_Rotations_Generator:
             self.quadrants["Q1"] = self.lib
     
         # Adding subbing of front row and back row    
-        elif self.quadrants.get("Q1").getRow() == "Front":
+        if self.quadrants.get("Q1").getRow() == "Front":
             sub: Player = self.quadrants.get("Q1").getSub()
             self.quadrants["Q1"] = sub
             
-        elif self.quadrants.get("Q4").getRow() == "Back":
+        if self.quadrants.get("Q4").getRow() == "Back":
             sub: Player = self.quadrants.get("Q4").getSub()
-            self.quadrants["Q4"] = self.quadrants.get("Q4").getSub()
+            self.quadrants["Q4"] = sub
         
     def makeHomeRotation(self):
-        ans = []
         count = 6
-        
         while count > 0:
             try:
                 frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
@@ -93,13 +90,14 @@ class Volleyball_Rotations_Generator:
             except: 
                 print("Something wrong occurred while creating strings of front-row and back-row.")
                 
-            ans.append((frontString, backString))
+            self.homeRotation.append((frontString, backString))
             self.rotate()
             count -= 1
-            
+    
+    def printRotations(self, rotations):
         count = 1
         print("\n")
-        for rotation in ans:
+        for rotation in rotations:
             frontRow, backRow = rotation
             print("Rotation {a}".format(a = count))
             print(frontRow)
@@ -112,7 +110,7 @@ if __name__ == "__main__":
     generator = Volleyball_Rotations_Generator()
     generator.inputPlayers()
     generator.makeHomeRotation()
-
+    generator.printRotations(generator.homeRotation)
     
     
     
