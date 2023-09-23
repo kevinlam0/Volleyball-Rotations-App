@@ -21,6 +21,7 @@ class Volleyball_Rotations_Generator:
         sub = input("Will there subs? (i.e. More than 7 starting players) (y/n): ")
         row_string = "Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "
         
+        # If there will be subs
         if "y" in sub.lower():
             self.setter = Player(name = input("Who is your starting Setter?: "), pos = "S", row = input(row_string))
             self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = input(row_string))
