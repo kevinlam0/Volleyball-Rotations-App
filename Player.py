@@ -8,9 +8,9 @@ class Player:
         if name == "":
             raise Exception("You cannot have a blank name for a player.")
         
-        formattedName = name.capitalize()
-        self.name = formattedName
-        self.position = pos
+        
+        self.name = name.capitalize()
+        self.position = pos.upper()
         
         
         
