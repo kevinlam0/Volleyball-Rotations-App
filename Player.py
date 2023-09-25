@@ -5,8 +5,15 @@ class Player:
     sub = None
     
     def __init__(self, name: str, pos: str, row: str, sub = None, lib = False):
-        self.name = name
+        if name == "":
+            raise Exception("You cannot have a blank name for a player.")
+        
+        formattedName = name.capitalize()
+        self.name = formattedName
         self.position = pos
+        
+        
+        
         
         if "both" in row.lower():
             self.row = "Both"
