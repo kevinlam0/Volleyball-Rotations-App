@@ -81,6 +81,7 @@ class Volleyball_Rotations_Generator:
         
     def makeHomeRotation(self):
         count = 6
+        self.homeRotation = []
         while count > 0:
             try:
                 frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
@@ -97,7 +98,7 @@ class Volleyball_Rotations_Generator:
     
     def printRotations(self, rotations):
         count = 1
-        print("\n")
+        # print("\n")
         for rotation in rotations:
             frontRow, backRow = rotation
             print("Rotation {a}".format(a = count))
@@ -109,8 +110,23 @@ class Volleyball_Rotations_Generator:
         
 if __name__ == "__main__":
     generator = Volleyball_Rotations_Generator()
+    # generator.inputPlayers()
+    # generator.makeHomeRotation()
+    # print("Kelly 5-1\n")
+    # generator.printRotations(generator.homeRotation)
+    # generator.inputPlayers()
+    # generator.makeHomeRotation()
+    # print("Niko 5-1")
+    # generator.printRotations(generator.homeRotation)
+    # # print("Kelly-Niko 6-2")
+    # generator.inputPlayers()
+    # generator.makeHomeRotation()
+    # print("Kelly-Niko 6-2")
+    # generator.printRotations(generator.homeRotation)
+    
     generator.inputPlayers()
     generator.makeHomeRotation()
+    print("\nKelly-Niko 5-2")
     generator.printRotations(generator.homeRotation)
     
     
