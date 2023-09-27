@@ -80,7 +80,7 @@ class Volleyball_Rotations_Generator:
             sub: Player = self.quadrants.get("Q4").getSub()
             self.quadrants["Q4"] = sub
 
-    def displayRotation(self, rotation, positions = False): # rotation represents which rotation should be displayed
+    def displayRotation(self, rotation, positions): # rotation represents which rotation should be displayed
         # rotate appropriate amount of times to get to correct rotation
         for i in range(rotation - 1):
             self.rotate()
@@ -143,6 +143,39 @@ class Volleyball_Rotations_Generator:
         
 if __name__ == "__main__":
     generator = Volleyball_Rotations_Generator()
+
+    user_menu_input = generator.menu()
+
+    while user_menu_input != 3:
+        if user_menu_input == 1: 
+            display_position = False
+            print('Which rotation would you like displayed?\nPlease give a number 1-6, or type 0 to display all rotations')
+            while True:
+                try:
+                    rotation = int(input("Rotation: "))
+                    while rotation > 6 or rotation < 0:
+                        print('\nError: please give a number 1-6, or type 0 to display all rotations')
+                        rotation = int(input("Rotation: "))
+                    break
+
+                except:
+                    print('\nError: please give a number 1-6, or type 0 to display all rotations')
+                    rotation = input("Rotation: ")
+                    pass
+            
+            if "y" in input("Would you like to display every player's position? (y/n): ").lower():
+                display_position = True
+
+            if rotation != 0:
+                print("\nRotation " + str(rotation))
+                generator.displayRotation(rotation, display_position)
+
+            else:
+                for x in range(1,7):
+                    print("\nRotation " + str(x))
+                    generator.displayRotation(x, display_position)
+
+        user_menu_input = generator.menu()
     # generator.inputPlayers()
     # generator.makeHomeRotation()
     # print("Kelly 5-1\n")
@@ -157,16 +190,10 @@ if __name__ == "__main__":
     # print("Kelly-Niko 6-2")
     # generator.printRotations(generator.homeRotation)
 
-    generator.inputPlayers()
+    # generator.inputPlayers()
     
-    generator.displayRotation(5, positions = True)
+    # generator.displayRotation(5, positions = True)
     # generator.makeHomeRotation(positions=True)
     # print("\nAdam-Niko 6-2")
     # generator.printRotations(generator.homeRotation)
-    
-    
-    
-    
-    
-    
     
