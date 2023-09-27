@@ -78,39 +78,43 @@ class Volleyball_Rotations_Generator:
         if self.quadrants.get("Q4").getRow() == "Back":
             sub: Player = self.quadrants.get("Q4").getSub()
             self.quadrants["Q4"] = sub
-        
-    def makeHomeRotation(self, positions = False):
-        count = 6
-        self.homeRotation = []
-    
-        while count > 0:
-            try:
-                frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
-                backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
-                if positions:
-                    frontString = "|  {a} ({p1})  |  {b} ({p2})  |  {c} ({p3})  |".format(a = frontRow[0].getName(), b = frontRow[1].getName(), c= frontRow[2].getName(), p1 = frontRow[0].getPosition(), p2 = frontRow[1].getPosition(), p3 = frontRow[2].getPosition())
-                    backString = "|  {a} ({p1})  |  {b} ({p2})  |  {c} ({p3})  |".format(a = backRow[0].getName(), b = backRow[1].getName(), c= backRow[2].getName(), p1 = backRow[0].getPosition(), p2 = backRow[1].getPosition(), p3 = backRow[2].getPosition())
-                else:
-                    frontString = "|  {a}  |  {b}  |  {c}  |".format(a = frontRow[0].getName(), b = frontRow[1].getName(), c= frontRow[2].getName())
-                    backString = "|  {a}  |  {b}  |  {c}  |".format(a = backRow[0].getName(), b = backRow[1].getName(), c = backRow[2].getName())
 
-            except: 
-                print("Something wrong occurred while creating strings of front-row and back-row.")
-                
-            self.homeRotation.append((frontString, backString))
+    def displayRotation(self, rotation, positions = False): # rotation represents which rotation should be displayed
+        # rotate appropriate amount of times to get to correct rotation
+        for i in range(rotation - 1):
             self.rotate()
-            count -= 1
-    
-    def printRotations(self, rotations):
-        count = 1
-        # print("\n")
-        for rotation in rotations:
-            frontRow, backRow = rotation
-            print("Rotation {a}".format(a = count))
-            print(frontRow)
-            print(backRow + "\n")
-            count += 1
-            
+
+        try:
+            # assign each player to default variables to be displayed
+            frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
+            backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
+
+            # 6 players for current specified rotation
+            a = frontRow[0].getName()
+            b = frontRow[1].getName()
+            c = frontRow[2].getName()
+            d = backRow[0].getName()
+            e = backRow[1].getName()
+            f = backRow[2].getName()
+
+            if positions:   # if positions are to be displayed, assign each position to default variables
+                p1 = frontRow[0].getPosition()
+                p2 = frontRow[1].getPosition()
+                p3 = frontRow[2].getPosition()
+                p4 = backRow[0].getPosition()
+                p5 = backRow[1].getPosition()
+                p6 = backRow[2].getPosition()
+
+                # print with equally spaced columns (15 characters wide)
+                print(f'|{a + " (" + p1 + ")":^15}|{b + " (" + p2 + ")":^15}|{c + " (" + p3 + ")":^15}|')
+                print(f'|{d + " (" + p4 + ")":^15}|{e + " (" + p5 + ")":^15}|{f + " (" + p6 + ")":^15}|')
+
+            else:   # if positions are not to be displayed, only print the players out
+                print(f'|{a:^15}|{b:^15}|{c:^15}|')
+                print(f'|{d:^15}|{e:^15}|{f:^15}|')
+
+        except: 
+            print("Something wrong occurred while creating strings of front-row and back-row.")
     
         
 if __name__ == "__main__":
@@ -128,11 +132,13 @@ if __name__ == "__main__":
     # generator.makeHomeRotation()
     # print("Kelly-Niko 6-2")
     # generator.printRotations(generator.homeRotation)
-    
+
     generator.inputPlayers()
-    generator.makeHomeRotation(positions=True)
-    print("\nAdam-Niko 6-2")
-    generator.printRotations(generator.homeRotation)
+    
+    generator.displayRotation(5, positions = True)
+    # generator.makeHomeRotation(positions=True)
+    # print("\nAdam-Niko 6-2")
+    # generator.printRotations(generator.homeRotation)
     
     
     
