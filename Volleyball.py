@@ -6,6 +6,7 @@ class Volleyball_Rotations_Generator:
     quadrants: dict
     maxLengthOfName = 0
     sittingMiddle: Player
+    introduced = False
     
     def __init__(self):
         self.homeRotation = []
@@ -115,6 +116,29 @@ class Volleyball_Rotations_Generator:
 
         except: 
             print("Something wrong occurred while creating strings of front-row and back-row.")
+
+    def menu(self):
+        global introduced
+        if self.introduced == False:
+            print("Hello! Welcome to the Volleyball Rotations App!\nPlease enter your players.")
+            self.inputPlayers()
+            self.introduced = True
+
+        print("\nPlease select a menu option by typing it in (1-3):")
+        print("1. Display a rotation")
+        print("2. Edit a rotation")
+        print("3. Quit")
+
+        try:
+            user_input = int(input())
+
+        except:
+            user_input = int(input("Please enter a valid menu option: "))
+
+        while user_input < 1 or user_input > 3:
+            user_input = int(input("Please enter a valid menu option: "))
+
+        return user_input
     
         
 if __name__ == "__main__":
