@@ -80,12 +80,16 @@ class Volleyball_Rotations_Generator:
             self.quadrants["Q4"] = sub
 
     def displayRotation(self, rotation, positions = False): # rotation represents which rotation should be displayed
+        # rotate appropriate amount of times to get to correct rotation
         for i in range(rotation - 1):
             self.rotate()
 
         try:
+            # assign each player to default variables to be displayed
             frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
             backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
+
+            # 6 players for current specified rotation
             a = frontRow[0].getName()
             b = frontRow[1].getName()
             c = frontRow[2].getName()
@@ -93,17 +97,19 @@ class Volleyball_Rotations_Generator:
             e = backRow[1].getName()
             f = backRow[2].getName()
 
-            if positions:
+            if positions:   # if positions are to be displayed, assign each position to default variables
                 p1 = frontRow[0].getPosition()
                 p2 = frontRow[1].getPosition()
                 p3 = frontRow[2].getPosition()
                 p4 = backRow[0].getPosition()
                 p5 = backRow[1].getPosition()
                 p6 = backRow[2].getPosition()
+
+                # print with equally spaced columns (15 characters wide)
                 print(f'|{a + " (" + p1 + ")":^15}|{b + " (" + p2 + ")":^15}|{c + " (" + p3 + ")":^15}|')
                 print(f'|{d + " (" + p4 + ")":^15}|{e + " (" + p5 + ")":^15}|{f + " (" + p6 + ")":^15}|')
 
-            else:
+            else:   # if positions are not to be displayed, only print the players out
                 print(f'|{a:^15}|{b:^15}|{c:^15}|')
                 print(f'|{d:^15}|{e:^15}|{f:^15}|')
 
