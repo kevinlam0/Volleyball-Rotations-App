@@ -90,6 +90,10 @@ class Volleyball_Rotations_Generator:
             frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
             backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
 
+            # after assigning frontRow and backRow, reset rotations for future use
+            for i in range(7 - rotation):
+                self.rotate()
+
             # 6 players for current specified rotation
             a = frontRow[0].getName()
             b = frontRow[1].getName()
