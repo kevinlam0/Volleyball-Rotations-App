@@ -115,40 +115,6 @@ class Volleyball_Rotations_Generator:
 
         except: 
             print("Something wrong occurred while creating strings of front-row and back-row.")
-        
-        
-    # def makeHomeRotation(self, positions = False):
-    #     count = 6
-    #     self.homeRotation = []
-    
-    #     while count > 0:
-    #         try:
-    #             frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
-    #             backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
-    #             if positions:
-    #                 frontString = "|  {a} ({p1})  |  {b} ({p2})  |  {c} ({p3})  |".format(a = frontRow[0].getName(), b = frontRow[1].getName(), c= frontRow[2].getName(), p1 = frontRow[0].getPosition(), p2 = frontRow[1].getPosition(), p3 = frontRow[2].getPosition())
-    #                 backString = "|  {a} ({p1})  |  {b} ({p2})  |  {c} ({p3})  |".format(a = backRow[0].getName(), b = backRow[1].getName(), c= backRow[2].getName(), p1 = backRow[0].getPosition(), p2 = backRow[1].getPosition(), p3 = backRow[2].getPosition())
-    #             else:
-    #                 frontString = "|  {a}  |  {b}  |  {c}  |".format(a = frontRow[0].getName(), b = frontRow[1].getName(), c= frontRow[2].getName())
-    #                 backString = "|  {a}  |  {b}  |  {c}  |".format(a = backRow[0].getName(), b = backRow[1].getName(), c = backRow[2].getName())
-
-    #         except: 
-    #             print("Something wrong occurred while creating strings of front-row and back-row.")
-                
-    #         self.homeRotation.append((frontString, backString))
-    #         self.rotate()
-    #         count -= 1
-    
-    # def printRotations(self, rotations):
-    #     count = 1
-    #     # print("\n")
-    #     for rotation in rotations:
-    #         frontRow, backRow = rotation
-    #         print("Rotation {a}".format(a = count))
-    #         print(frontRow)
-    #         print(backRow + "\n")
-    #         count += 1
-            
     
         
 if __name__ == "__main__":
