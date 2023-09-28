@@ -40,10 +40,23 @@ class Player:
             
         elif row == "Back":
             self.sub = Player(input("Who is " + self.name + "'s front-row sub?: "), input("What is this player's position?: "), "Front", sub = self)
+
+
+    def setSub(self, sub, position, row):
+        if row == "Front":
+            self.sub = Player(sub, position, row, sub = self)
+            self.row = "Back"
+        else:
+            self.sub = Player(sub, "DS", row, sub = self)
+            self.row = "Front"
     
     def getSub(self):
         
         return self.sub
+    
+    def deleteSub(self):
+        self.sub = None
+        self.row = "Both"
     
     def getRow(self):
         return self.row
