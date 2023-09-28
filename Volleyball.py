@@ -121,6 +121,133 @@ class Volleyball_Rotations_Generator:
         except: 
             print("Something wrong occurred while creating strings of front-row and back-row.")
 
+    def edit_player(self):
+        player_row = ""
+        print("\nPosition abbreviations: S, RS, OH1, OH2, L, MB1, MB2")
+        position = input("\nPlease enter the player's position you want to edit: ")
+        
+        while position != 'S' and position != 'RS' and position != 'OH1' and position != 'OH2' and position != 'L' and position != 'MB1' and position != 'MB2':
+            position = input("Please enter a valid position: ")
+
+        new_name = input("What is the new " + position + "'s name?: ")
+
+        if position != 'L' and position != 'MB1' and position != 'MB2':
+            player_row = input("Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: ")
+
+        if position == 'S':
+            self.setter = Player(new_name, pos = "S", row = player_row)
+        elif position == 'RS':
+            self.rs = Player(new_name, pos = "RS", row = player_row)
+        elif position == 'OH1':
+            self.oh1 = Player(new_name, pos = "OH1", row = player_row)
+        elif position == 'OH2':
+            self.oh2 = Player(new_name, pos = "OH2", row = player_row)
+        elif position == 'L':
+            self.lib = Player(new_name, pos = "L", row = "Back", lib = True)
+        elif position == 'MB1':
+            self.mb1 = Player(new_name, pos = "MB1", row = "Front", lib = True)
+        elif position == 'MB2':
+            self.mb2 = Player(new_name,pos = "MB2", row = "Front", lib = True)
+        
+        self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
+        self.sittingMiddle = self.mb1
+
+    def add_substitution(self):
+        player_row = ""
+        print("\nPosition abbreviations: S, RS, OH1, OH2")
+        position = input("\nPlease enter the player's position you want to add a substitute for: ")
+        
+        while position != 'S' and position != 'RS' and position != 'OH1' and position != 'OH2':
+            position = input("Please enter a valid position: ")
+        
+        if position == 'S' and self.setter.getRow() != 'Both':
+            print("The Setter already has a substitute.")
+            return
+        elif position == 'RS' and self.rs.getRow() != 'Both':
+            print("The Right Side already has a substitute.")
+            return
+        elif position == 'OH1' and self.oh1.getRow() != 'Both':
+            print("The Outside Hitter 1 already has a substitute.")
+            return
+        elif position == 'OH2' and self.oh2.getRow() != 'Both':
+            print("The Outside Hitter 2 already has a substitute.")
+            return
+
+        new_name = input("What is the new substitute's name?: ")
+
+        player_row = input("Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: ")
+
+        if position == 'S':
+            self.setter.setSub(new_name, position, player_row)
+        elif position == 'RS':
+            self.rs.setSub(new_name, position, player_row)
+        elif position == 'OH1':
+            self.oh1.setSub(new_name, position, player_row)
+        elif position == 'OH2':
+            self.oh2.setSub(new_name, position, player_row)
+        
+        self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
+        self.sittingMiddle = self.mb1
+
+    
+    def delete_substitution(self):
+        player_row = ""
+        print("\nPosition abbreviations: S, RS, OH1, OH2")
+        position = input("\nPlease enter the player's position you want to delete a substitute for\n(Note: if the player is a DS, enter which position that player is filling in for): ")
+        
+        while position != 'S' and position != 'RS' and position != 'OH1' and position != 'OH2':
+            position = input("Please enter a valid position: ")
+        
+        if position == 'S' and self.setter.getRow() == 'Both':
+            print("The Setter has no substitute to delete.")
+            return
+        elif position == 'RS' and self.rs.getRow() == 'Both':
+            print("The Right Side has no substitute to delete.")
+            return
+        elif position == 'OH1' and self.oh1.getRow() == 'Both':
+            print("The Outside Hitter 1 has no substitute to delete.")
+            return
+        elif position == 'OH2' and self.oh2.getRow() == 'Both':
+            print("The Outside Hitter 2 has no substitute to delete.")
+            return
+
+        # delete_row = input("Would you like to remove the back-row, (\"Back\") or front-row (\"Front\")?: ")
+
+        if position == 'S':
+            self.setter.deleteSub()
+        elif position == 'RS':
+            self.rs.deleteSub()
+        elif position == 'OH1':
+            self.oh1.deleteSub()
+        elif position == 'OH2':
+            self.oh2.deleteSub()
+        
+
+        # if position == 'S':
+        #     if delete_row == self.setter.getRow():
+        #         self.setter = Player(self.setter.getSub(), pos = "S", row = "Both")
+        #     else:
+        #         self.setter = Player(self.setter.getName(), pos = "S", row = "Both")
+        # elif position == 'RS':
+        #     if delete_row == self.rs.getRow():
+        #         self.rs = Player(self.rs.getSub(), pos = "RS", row = "Both")
+        #     else:
+        #         self.rs = Player(self.rs.getName(), pos = "RS", row = "Both")
+        # elif position == 'OH1':
+        #     if delete_row == self.oh1.getRow():
+        #         self.oh1 = Player(self.oh1.getSub(), pos = "OH1", row = "Both")
+        #     else:
+        #         self.oh1 = Player(self.oh1.getName(), pos = "OH1", row = "Both")
+        # elif position == 'OH2':
+        #     if delete_row == self.oh2.getRow():
+        #         self.oh2 = Player(self.oh2.getSub(), pos = "OH2", row = "Both")
+        #     else:
+        #         self.oh2 = Player(self.oh2.getName(), pos = "OH2", row = "Both")
+
+        self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
+        self.sittingMiddle = self.mb1
+
+
     def menu(self):
         global introduced
         if self.introduced == False:
@@ -178,6 +305,33 @@ if __name__ == "__main__":
                 for x in range(1,7):
                     print("\nRotation " + str(x))
                     generator.displayRotation(x, display_position)
+
+        elif user_menu_input == 2:
+            user_input = ""
+            
+            print("\nPlease select a menu option by typing it in (1-3):")
+            print("1. Edit a player")
+            print("2. Add a substitution")
+            print("3. Delete a substitution ")
+
+            try:
+                user_input = int(input())
+
+            except:
+                user_input = int(input("Please enter a valid menu option: "))
+
+            while user_input < 1 or user_input > 3:
+                user_input = int(input("Please enter a valid menu option: "))
+
+            if user_input == 1:
+                generator.edit_player()
+
+            if user_input == 2:
+                generator.add_substitution()
+
+            if user_input == 3:
+                generator.delete_substitution()
+
 
         user_menu_input = generator.menu()
     # generator.inputPlayers()
