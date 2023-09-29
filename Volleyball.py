@@ -49,36 +49,51 @@ class Volleyball_Rotations_Generator:
         
         self.reset_rotations()
     
-    def rotate(self):
+    def rotate(self, rotation):
         """
         Rotates the players
         """
         
-        # Store the first person
-        first = self.quadrants.get("Q1")
-        
-        # Shift all players over from the next higher quadrant
-        for i in range(1, 6):
-            self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
-        
-        # Put the first person in the missing quadrants
-        self.quadrants["Q6"] = first
-        
-        # Adds libero logic
-        if self.quadrants.get("Q4").getPosition() == "L":
-            self.quadrants["Q4"] = self.sittingMiddle
-            self.sittingMiddle = self.quadrants.get("Q1")
-            self.quadrants["Q1"] = self.lib
-    
-        # Adding subbing of front row and back row    
-        if self.quadrants.get("Q1").getRow() == "Front":
-            sub: Player = self.quadrants.get("Q1").getSub()
-            self.quadrants["Q1"] = sub
+        for i in range(rotation - 1):
+            # Store the first person
+            first = self.quadrants.get("Q1")
             
-        if self.quadrants.get("Q4").getRow() == "Back":
-            sub: Player = self.quadrants.get("Q4").getSub()
-            self.quadrants["Q4"] = sub
+            # Shift all players over from the next higher quadrant
+            for i in range(1, 6):
+                self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
+            
+            # Put the first person in the missing quadrants
+            self.quadrants["Q6"] = first
+        
+        self.validate_row()
 
+    def validate_row(self):
+        for i in range(1,7):
+            quadrant = "Q" + str(i)
+
+            # if player is a backrow player but is in the front
+            if self.quadrants.get(quadrant).getRow() == "Back" and 2 <= i <= 4:
+                # is player is libero in the front
+                if self.quadrants.get(quadrant).getPosition() == "L" and 2 <= i <= 4:
+                    # calculate opposite quadrant to swap libero and middles in correct position
+                    if i <= 3:
+                        oppositeQuadrant = "Q" + str(i + 3)
+                    else:
+                        oppositeQuadrant = "Q" + str(i - 3)
+
+                    self.quadrants[quadrant] = self.sittingMiddle
+                    self.sittingMiddle = self.quadrants.get(oppositeQuadrant)
+                    self.quadrants[oppositeQuadrant] = self.lib
+                # non-libero backrow player in front
+                else:
+                    sub: Player = self.quadrants.get(quadrant).getSub()
+                    self.quadrants[quadrant] = sub
+            # else if player is a frontrow player but is in the back
+            elif self.quadrants.get(quadrant).getRow() == "Front" and (i == 1 or i >= 5):
+                sub: Player = self.quadrants.get(quadrant).getSub()
+                self.quadrants[quadrant] = sub
+
+            
     def displayRotation(self, rotation, positions):
         """
         This function prints out the input rotations. 
@@ -88,8 +103,7 @@ class Volleyball_Rotations_Generator:
             positions (boolean): This will tell the function whether or not they want the positions of the players printed. 
         """
         # rotate appropriate amount of times to get to correct rotation
-        for i in range(rotation - 1):
-            self.rotate()
+        self.rotate(rotation)
 
         try:
             # Get the players in the correct row
@@ -221,6 +235,7 @@ class Volleyball_Rotations_Generator:
             elif position == 'RS':
                 while subs_position not in self.VALID_SUBS[position]:
                     subs_position = input("Please provide a valid position for the sub of a right side (S, RS, DS): ").upper()
+                print(new_name, subs_position, player_row)
                 self.rs.setSub(new_name, subs_position, player_row)
             
         elif position == 'OH1':
