@@ -3,20 +3,33 @@ class Player:
     name: str
     row: str
     sub = None
+    POSITIONS = {'S', 'RS', 'OH1', 'OH2', 'L', 'MB1', 'MB2', 'DS'} 
     
     def __init__(self, name: str, pos: str, row: str, sub = None, lib = False):
-        if name == "":
-            raise Exception("You cannot have a blank name for a player.")
+        # Name handling
+        while name == "":
+            name = input("The name of this player cannot be blank. Please input a name: ")
         self.name = name.capitalize()
-        self.position = pos.upper()
         
-        if "both" in row.lower():
+        # Position handling
+        playersPosition = pos.upper()
+        while (playersPosition not in self.POSITIONS):
+            playersPosition = input("Please input a valid position (S, OH1, OH2, RS, L, MB1, MB2): ").upper()
+        self.position = playersPosition
+        
+        # Row handling 
+        row = row.lower()
+        while row != 'back' and row != 'front' and row != 'both':
+            row = input("The row input was not valid. Please provide a row (Front, Back, Both): ")
+            
+        if "both" in row:
             self.row = "Both"
-        elif "front" in row.lower():
+        elif "front" in row:
             self.row = "Front"
-        elif "back" in row.lower():
+        elif "back" in row:
             self.row = "Back"
         
+        # Look for sub if the player does not play both rows
         if not self.row == "Both" and sub == None and not lib:
             self.findSub(self.row)
         else:
@@ -42,7 +55,7 @@ class Player:
             self.sub = Player(name, position, row, sub = self)
             self.row = "Back"
         elif row == "back":
-            self.sub = Player(name, "DS", row, sub = self)
+            self.sub = Player(name, position, row, sub = self)
             self.row = "Front"
     
     def getSub(self):

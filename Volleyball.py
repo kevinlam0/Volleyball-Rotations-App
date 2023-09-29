@@ -7,6 +7,7 @@ class Volleyball_Rotations_Generator:
     maxLengthOfName = 0
     sittingMiddle: Player
     introduced = False
+    VALID_SUBS = {"S": {"S", "RS", "DS"}, "RS": {"S", "DS"}, "OH1": {"DS"}, "OH2": {"DS"}}
     
     def __init__(self):
         self.homeRotation = []
@@ -156,12 +157,14 @@ class Volleyball_Rotations_Generator:
     # add substitutes for starters
     def add_substitution(self):
         player_row = ""
-        print("\nPosition abbreviations: S, RS, OH1, OH2")  # print possible positions to edit
+        
+        # Print all valid positions to add subs to
+        print("\nPosition abbreviations: S, RS, OH1, OH2") 
         position = input("\nPlease enter the player's position you want to add a substitute for: ").upper()
         
-        # error check, loop until user has entered valid position
+        # Error checking, making sure the position input is valid
         while position != 'S' and position != 'RS' and position != 'OH1' and position != 'OH2':
-            position = input("Please enter a valid position: ")
+            position = input("Please enter a valid position: ").upper()
         
         # if given position's row is set to either 'Front' or 'Back,' they already have a substitute
         if position == 'S' and self.setter.getRow() != 'Both':
@@ -177,20 +180,29 @@ class Volleyball_Rotations_Generator:
             print("The Outside Hitter 2 already has a substitute.")
             return
 
-        # name of substitute
+        # Getting information on the sub
         new_name = input("What is the new substitute's name?: ")
-
         player_row = input("Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: ")
-
-        # set substitute based on given name and position
-        if position == 'S':
-            self.setter.setSub(new_name, position, player_row)
-        elif position == 'RS':
-            self.rs.setSub(new_name, position, player_row)
+        
+        # Only ask for the sub's position if it is for a setter or right side
+        if "S" in position:
+            subs_position = input("What is this sub's position?: ").upper()
+            
+            # Make sure the sub has a valid position for the person they are subbing in for. 
+            if position == 'S':
+                while subs_position not in self.VALID_SUBS[position]:
+                    subs_position = input("Please provide a valid position for the sub of a setter (S, RS, DS): ").upper()
+                self.setter.setSub(new_name, subs_position, player_row)
+                
+            elif position == 'RS':
+                while subs_position not in self.VALID_SUBS[position]:
+                    subs_position = input("Please provide a valid position for the sub of a right side (S, DS): ").upper()
+                self.rs.setSub(new_name, subs_position, player_row)
+            
         elif position == 'OH1':
-            self.oh1.setSub(new_name, position, player_row)
+            self.oh1.setSub(new_name, "DS", player_row)
         elif position == 'OH2':
-            self.oh2.setSub(new_name, position, player_row)
+            self.oh2.setSub(new_name, "DS", player_row)
         
         self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
         self.sittingMiddle = self.mb1
