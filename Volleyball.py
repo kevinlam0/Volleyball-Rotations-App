@@ -49,7 +49,7 @@ class Volleyball_Rotations_Generator:
         
         self.reset_rotations()
     
-    def rotate(self):
+    def rotate(self, rotations):
         """
         Rotates the players
         """
@@ -64,6 +64,9 @@ class Volleyball_Rotations_Generator:
         # Put the first person in the missing quadrants
         self.quadrants["Q6"] = first
         
+        self.validate_row()
+
+    def validate_row(self):
         # Adds libero logic
         if self.quadrants.get("Q4").getPosition() == "L":
             self.quadrants["Q4"] = self.sittingMiddle
@@ -78,7 +81,7 @@ class Volleyball_Rotations_Generator:
         if self.quadrants.get("Q4").getRow() == "Back":
             sub: Player = self.quadrants.get("Q4").getSub()
             self.quadrants["Q4"] = sub
-
+            
     def displayRotation(self, rotation, positions):
         """
         This function prints out the input rotations. 
@@ -221,6 +224,7 @@ class Volleyball_Rotations_Generator:
             elif position == 'RS':
                 while subs_position not in self.VALID_SUBS[position]:
                     subs_position = input("Please provide a valid position for the sub of a right side (S, RS, DS): ").upper()
+                print(new_name, subs_position, player_row)
                 self.rs.setSub(new_name, subs_position, player_row)
             
         elif position == 'OH1':
