@@ -44,12 +44,6 @@ class Volleyball_Rotations_Generator:
         self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
         self.sittingMiddle = self.mb1
         
-    
-        # word_list = [self.setter.getName(), self.oh1.getName(), self.oh2.getName(), self.rs.getName(), self.mb1.getName(), self.mb2.getName(), self.lib.getName()]
-        # for word in word_list:
-        #     if len(word) > self.maxLengthOfName:
-        #         self.maxLengthOfName = len(word)
-        
     def rotate(self):
         """
         Rotates the players
