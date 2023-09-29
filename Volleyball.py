@@ -67,20 +67,31 @@ class Volleyball_Rotations_Generator:
         self.validate_row()
 
     def validate_row(self):
-        # Adds libero logic
-        if self.quadrants.get("Q4").getPosition() == "L":
-            self.quadrants["Q4"] = self.sittingMiddle
-            self.sittingMiddle = self.quadrants.get("Q1")
-            self.quadrants["Q1"] = self.lib
-    
-        # Adding subbing of front row and back row    
-        if self.quadrants.get("Q1").getRow() == "Front":
-            sub: Player = self.quadrants.get("Q1").getSub()
-            self.quadrants["Q1"] = sub
-            
-        if self.quadrants.get("Q4").getRow() == "Back":
-            sub: Player = self.quadrants.get("Q4").getSub()
-            self.quadrants["Q4"] = sub
+        for i in range(1,7):
+            quadrant = "Q" + str(i)
+
+            # if player is a backrow player but is in the front
+            if self.quadrants.get(quadrant).getRow() == "Back" and 2 <= i <= 4:
+                # is player is libero in the front
+                if self.quadrants.get(quadrant).getPosition() == "L" and 2 <= i <= 4:
+                    # calculate opposite quadrant to swap libero and middles in correct position
+                    if i <= 3:
+                        oppositeQuadrant = "Q" + str(i + 3)
+                    else:
+                        oppositeQuadrant = "Q" + str(i - 3)
+
+                    self.quadrants[quadrant] = self.sittingMiddle
+                    self.sittingMiddle = self.quadrants.get(oppositeQuadrant)
+                    self.quadrants[oppositeQuadrant] = self.lib
+                # non-libero backrow player in front
+                else:
+                    sub: Player = self.quadrants.get(quadrant).getSub()
+                    self.quadrants[quadrant] = sub
+            # else if player is a frontrow player but is in the back
+            elif self.quadrants.get(quadrant).getRow() == "Front" and (i == 1 or i >= 5):
+                sub: Player = self.quadrants.get(quadrant).getSub()
+                self.quadrants[quadrant] = sub
+
             
     def displayRotation(self, rotation, positions):
         """
