@@ -7,13 +7,8 @@ class Player:
     def __init__(self, name: str, pos: str, row: str, sub = None, lib = False):
         if name == "":
             raise Exception("You cannot have a blank name for a player.")
-        
-        
         self.name = name.capitalize()
         self.position = pos.upper()
-        
-        
-        
         
         if "both" in row.lower():
             self.row = "Both"
@@ -41,7 +36,6 @@ class Player:
         elif row == "Back":
             self.sub = Player(input("Who is " + self.name + "'s front-row sub?: "), input("What is this player's position?: "), "Front", sub = self)
 
-
     def setSub(self, sub, position, row):
         if row == "Front":
             self.sub = Player(sub, position, row, sub = self)
@@ -51,7 +45,6 @@ class Player:
             self.row = "Front"
     
     def getSub(self):
-        
         return self.sub
     
     def deleteSub(self):
