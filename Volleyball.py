@@ -49,20 +49,21 @@ class Volleyball_Rotations_Generator:
         
         self.reset_rotations()
     
-    def rotate(self, rotations):
+    def rotate(self, rotation):
         """
         Rotates the players
         """
         
-        # Store the first person
-        first = self.quadrants.get("Q1")
-        
-        # Shift all players over from the next higher quadrant
-        for i in range(1, 6):
-            self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
-        
-        # Put the first person in the missing quadrants
-        self.quadrants["Q6"] = first
+        for i in range(rotation - 1):
+            # Store the first person
+            first = self.quadrants.get("Q1")
+            
+            # Shift all players over from the next higher quadrant
+            for i in range(1, 6):
+                self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
+            
+            # Put the first person in the missing quadrants
+            self.quadrants["Q6"] = first
         
         self.validate_row()
 
@@ -102,8 +103,7 @@ class Volleyball_Rotations_Generator:
             positions (boolean): This will tell the function whether or not they want the positions of the players printed. 
         """
         # rotate appropriate amount of times to get to correct rotation
-        for i in range(rotation - 1):
-            self.rotate()
+        self.rotate(rotation)
 
         try:
             # Get the players in the correct row
