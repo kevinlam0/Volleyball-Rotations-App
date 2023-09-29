@@ -279,13 +279,13 @@ class Volleyball_Rotations_Generator:
 
         # delete substitute if one exists
         if position == 'S':
-            self.setter.deleteSub()
+            self.setter.deleteSub(position)
         elif position == 'RS':
-            self.rs.deleteSub()
+            self.rs.deleteSub(position)
         elif position == 'OH1':
-            self.oh1.deleteSub()
+            self.oh1.deleteSub(position)
         elif position == 'OH2':
-            self.oh2.deleteSub()
+            self.oh2.deleteSub(position)
 
         self.reset_rotations()
 
