@@ -21,21 +21,15 @@ class Player:
         row = row.lower()
         while row != 'back' and row != 'front' and row != 'both':
             row = input("The row input was not valid. Please provide a row (Front, Back, Both): ")
-            
-        if "both" in row:
-            self.row = "Both"
-        elif "front" in row:
-            self.row = "Front"
-        elif "back" in row:
-            self.row = "Back"
+        
+        self.row = row.capitalize()  
         
         # Look for sub if the player does not play both rows
         if not self.row == "Both" and sub == None and not lib:
             self.findSub(self.row)
         else:
             self.sub = sub
-        
-    
+         
     def getName(self):
         return self.name
     
