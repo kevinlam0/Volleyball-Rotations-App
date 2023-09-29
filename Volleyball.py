@@ -10,7 +10,7 @@ class Volleyball_Rotations_Generator:
     sittingMiddle: Player
     quadrants: dict
     introduced: bool
-    VALID_SUBS = {"S": {"S", "RS", "DS"}, "RS": {"S", "DS"}, "OH1": {"DS"}, "OH2": {"DS"}}
+    VALID_SUBS = {"S": {"S", "RS", "DS"}, "RS": {"S", "DS", "RS"}, "OH1": {"DS"}, "OH2": {"DS"}}
     
     def __init__(self):
         self.setter, self.rs, self.oh1, self.oh2, self.lib, self.mb1, self.mb2 = None, None, None, None, None, None, None
@@ -220,7 +220,7 @@ class Volleyball_Rotations_Generator:
                 
             elif position == 'RS':
                 while subs_position not in self.VALID_SUBS[position]:
-                    subs_position = input("Please provide a valid position for the sub of a right side (S, DS): ").upper()
+                    subs_position = input("Please provide a valid position for the sub of a right side (S, RS, DS): ").upper()
                 self.rs.setSub(new_name, subs_position, player_row)
             
         elif position == 'OH1':
