@@ -136,13 +136,16 @@ class Volleyball_Rotations_Generator:
         print("\nPosition abbreviations: S, RS, OH1, OH2, L, MB1, MB2") 
         
         # Grab a valid position 
-        position = input("\nPlease enter the player's position you want to edit: ").upper()
-        possible_positions = {"RS", "S", "OH1", "OH2", "MB1", "MB2", "L"}
+        position = input("\nPlease enter the player's position you want to edit or \"Q\" if you want to quit editing player: ").upper()
+        possible_inputs = {"RS", "S", "OH1", "OH2", "MB1", "MB2", "L", "Q"}
         
         # error check, loop until user has entered valid position
-        while position not in possible_positions:
-            position = input("Please enter a valid position: ").upper()
+        while position not in possible_inputs:
+            position = input("Please enter a valid position or quit (Q): ").upper()
 
+        if position == "Q":
+            return 
+        
         # name of new player
         new_name = input("What is the new " + position + "'s name?: ")
 
@@ -177,12 +180,15 @@ class Volleyball_Rotations_Generator:
         
         # Print all valid positions to add subs to
         print("\nPosition abbreviations: S, RS, OH1, OH2") 
-        position = input("\nPlease enter the player's position you want to add a substitute for: ").upper()
-        possible_positions = {"S", "RS", "OH1", "OH2"}
+        position = input("\nPlease enter the player's position you want to add a substitute for or \"Q\" if you want to quit adding a sub: ").upper()
+        possible_inputs = {"S", "RS", "OH1", "OH2", "Q"}
         
         # Error checking, making sure the position input is valid
-        while position not in possible_positions:
-            position = input("Please enter a valid position: ").upper()
+        while position not in possible_inputs:
+            position = input("Please enter a valid position or quit (Q): ").upper()
+        
+        if position == "Q":
+            return 
         
         # if given position's row is set to either 'Front' or 'Back,' they already have a substitute
         if position == 'S' and self.setter.getRow() != 'Both':
@@ -232,12 +238,15 @@ class Volleyball_Rotations_Generator:
         
         # Print out the possible positions to delete from. 
         print("\nPosition abbreviations: S, RS, OH1, OH2") 
-        position = input("\nPlease enter the player's position you want to delete a substitute for\n(Note: if the player is a DS, enter which position that player is filling in for): ").upper()
-        possible_positions = {"S", "RS", "OH1", "OH2"}
+        position = input("\nPlease enter the player's position you want to delete a substitute for or \"Q\" to quit deleting a player.\n(Note: if the player is a DS, enter which position that player is filling in for): ").upper()
+        possible_inputs = {"S", "RS", "OH1", "OH2", "Q"}
         
         # error check, loop until user has entered valid position
-        while position not in possible_positions:
-            position = input("Please enter a valid position: ").upper()
+        while position not in possible_inputs:
+            position = input("Please enter a valid position or quit (Q): ").upper()
+        
+        if position == "Q":
+            return 
         
         # if row is set to 'Both,' they don't have an existing substitute
         if position == 'S' and self.setter.getRow() == 'Both':
