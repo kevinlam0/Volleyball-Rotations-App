@@ -157,7 +157,7 @@ class Volleyball_Rotations_Generator:
     def add_substitution(self):
         player_row = ""
         print("\nPosition abbreviations: S, RS, OH1, OH2")  # print possible positions to edit
-        position = input("\nPlease enter the player's position you want to add a substitute for: ")
+        position = input("\nPlease enter the player's position you want to add a substitute for: ").upper()
         
         # error check, loop until user has entered valid position
         while position != 'S' and position != 'RS' and position != 'OH1' and position != 'OH2':
