@@ -1,17 +1,20 @@
 from Player import Player
 class Volleyball_Rotations_Generator:
-    homeRotation = None
-    serveReceive = None
-    setter, oh1, oh2, lib, mb1, mb2, rs = "", "", "", "", "", "", ""
-    quadrants: dict
-    maxLengthOfName = 0
+    setter: Player
+    oh1: Player
+    oh2: Player
+    lib: Player 
+    mb1: Player
+    mb2: Player
+    rs: Player 
     sittingMiddle: Player
-    introduced = False
+    quadrants: dict
+    introduced: bool
     VALID_SUBS = {"S": {"S", "RS", "DS"}, "RS": {"S", "DS"}, "OH1": {"DS"}, "OH2": {"DS"}}
     
     def __init__(self):
-        self.homeRotation = []
-        self.serveReceive = None     
+        self.setter, self.rs, self.oh1, self.oh2, self.lib, self.mb1, self.mb2 = None, None, None, None, None, None, None
+        self.introduced = False
     
     def inputPlayers(self):
         """
@@ -89,7 +92,7 @@ class Volleyball_Rotations_Generator:
             self.rotate()
 
         try:
-            # assign each player to default variables to be displayed
+            # Get the players in the correct row
             frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
             backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
 
@@ -131,10 +134,13 @@ class Volleyball_Rotations_Generator:
         
         # Print out all the positions
         print("\nPosition abbreviations: S, RS, OH1, OH2, L, MB1, MB2") 
+        
+        # Grab a valid position 
         position = input("\nPlease enter the player's position you want to edit: ").upper()
+        possible_positions = {"RS", "S", "OH1", "OH2", "MB1", "MB2", "L"}
         
         # error check, loop until user has entered valid position
-        while position != 'S' and position != 'RS' and position != 'OH1' and position != 'OH2' and position != 'L' and position != 'MB1' and position != 'MB2':
+        while position not in possible_positions:
             position = input("Please enter a valid position: ").upper()
 
         # name of new player
@@ -172,9 +178,10 @@ class Volleyball_Rotations_Generator:
         # Print all valid positions to add subs to
         print("\nPosition abbreviations: S, RS, OH1, OH2") 
         position = input("\nPlease enter the player's position you want to add a substitute for: ").upper()
+        possible_positions = {"S", "RS", "OH1", "OH2"}
         
         # Error checking, making sure the position input is valid
-        while position != 'S' and position != 'RS' and position != 'OH1' and position != 'OH2':
+        while position not in possible_positions:
             position = input("Please enter a valid position: ").upper()
         
         # if given position's row is set to either 'Front' or 'Back,' they already have a substitute
@@ -226,9 +233,10 @@ class Volleyball_Rotations_Generator:
         # Print out the possible positions to delete from. 
         print("\nPosition abbreviations: S, RS, OH1, OH2") 
         position = input("\nPlease enter the player's position you want to delete a substitute for\n(Note: if the player is a DS, enter which position that player is filling in for): ").upper()
+        possible_positions = {"S", "RS", "OH1", "OH2"}
         
         # error check, loop until user has entered valid position
-        while position != 'S' and position != 'RS' and position != 'OH1' and position != 'OH2':
+        while position not in possible_positions:
             position = input("Please enter a valid position: ").upper()
         
         # if row is set to 'Both,' they don't have an existing substitute
@@ -339,7 +347,8 @@ if __name__ == "__main__":
                 print("\nRotation " + str(rotation))
                 generator.displayRotation(rotation, display_position)
 
-        elif user_menu_input == 2:  # edit players
+        # ---- Edit players or subs ----
+        elif user_menu_input == 2:  
             user_input = ""
             
             print("\nPlease select a menu option by typing it in (1-3):")
@@ -365,8 +374,9 @@ if __name__ == "__main__":
             if user_input == 3: # delete a substitute
                 generator.delete_substitution()
 
-
         user_menu_input = generator.menu()
+        
+        
     # generator.inputPlayers()
     # generator.makeHomeRotation()
     # print("Kelly 5-1\n")
@@ -380,9 +390,7 @@ if __name__ == "__main__":
     # generator.makeHomeRotation()
     # print("Kelly-Niko 6-2")
     # generator.printRotations(generator.homeRotation)
-
     # generator.inputPlayers()
-    
     # generator.displayRotation(5, positions = True)
     # generator.makeHomeRotation(positions=True)
     # print("\nAdam-Niko 6-2")
