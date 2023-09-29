@@ -43,21 +43,26 @@ class Player:
         return self.row
     
     def findSub(self, row):
-        if row == "Front":
+        row = row.lower()
+        if row == "front":
             self.sub = Player(input("Who is " + self.name + "'s back-row sub?: "), "DS", "Back", sub = self)
             
-        elif row == "Back":
+        elif row == "back":
             self.sub = Player(input("Who is " + self.name + "'s front-row sub?: "), input("What is this player's position?: "), "Front", sub = self)
+            if self.position != 'S':    # if player is a backrow pin, set them as 'DS'
+                self.position = 'DS'
     
     def setSub(self, name, position, row):
         row = row.lower()
+        self.sub = Player(name, position, row, sub = self)
         if row == "front":
-            self.sub = Player(name, position, row, sub = self)
+            if self.position != 'S':    # if player is a backrow pin, set them as 'DS'
+                self.position = 'DS'
             self.row = "Back"
         elif row == "back":
-            self.sub = Player(name, position, row, sub = self)
             self.row = "Front"
             
-    def deleteSub(self):
+    def deleteSub(self, position):
         self.sub = None
         self.row = "Both"
+        self.position = position
