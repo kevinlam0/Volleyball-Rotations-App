@@ -52,7 +52,7 @@ class Lineup:
         self.mb2 = _make_player_lib("MB2")
     def reset_rotations(self):
         self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
-        self.sittingMiddle = self.mb1
+        self.sitting_middle = self.mb1
     def get_frontrow(self) -> tuple:
         q4: Player = self.quadrants.get("Q4")
         q3: Player = self.quadrants.get("Q3")
@@ -83,25 +83,25 @@ class Lineup:
             quadrant = "Q" + str(i)
 
             # if player is a backrow player but is in the front
-            if self.quadrants.get(quadrant).getRow() == "Back" and 2 <= i <= 4:
+            if self.quadrants.get(quadrant).get_row() == "Back" and 2 <= i <= 4:
                 # is player is libero in the front
-                if self.quadrants.get(quadrant).getPosition() == "L" and 2 <= i <= 4:
+                if self.quadrants.get(quadrant).get_position() == "L" and 2 <= i <= 4:
                     # calculate opposite quadrant to swap libero and middles in correct position
                     if i <= 3:
-                        oppositeQuadrant = "Q" + str(i + 3)
+                        opposite_quadrant = "Q" + str(i + 3)
                     else:
-                        oppositeQuadrant = "Q" + str(i - 3)
+                        opposite_quadrant = "Q" + str(i - 3)
 
-                    self.quadrants[quadrant] = self.sittingMiddle
-                    self.sittingMiddle = self.quadrants.get(oppositeQuadrant)
-                    self.quadrants[oppositeQuadrant] = self.lib
+                    self.quadrants[quadrant] = self.sitting_middle
+                    self.sitting_middle = self.quadrants.get(opposite_quadrant)
+                    self.quadrants[opposite_quadrant] = self.lib
                 # non-libero backrow player in front
                 else:
-                    sub: Player = self.quadrants.get(quadrant).getSub()
+                    sub: Player = self.quadrants.get(quadrant).get_sub()
                     self.quadrants[quadrant] = sub
             # else if player is a frontrow player but is in the back
-            elif self.quadrants.get(quadrant).getRow() == "Front" and (i == 1 or i >= 5):
-                sub: Player = self.quadrants.get(quadrant).getSub()
+            elif self.quadrants.get(quadrant).get_row() == "Front" and (i == 1 or i >= 5):
+                sub: Player = self.quadrants.get(quadrant).get_sub()
                 self.quadrants[quadrant] = sub    
 
     # ---- Edit Lineup ---- #
@@ -177,16 +177,16 @@ class Lineup:
             return 
         
         # if given position's row is set to either 'Front' or 'Back,' they already have a substitute
-        if position == 'S' and self.setter.getRow() != 'Both':
+        if position == 'S' and self.setter.get_row() != 'Both':
             print("The Setter already has a substitute.")
             return
-        elif position == 'RS' and self.rs.getRow() != 'Both':
+        elif position == 'RS' and self.rs.get_row() != 'Both':
             print("The Right Side already has a substitute.")
             return
-        elif position == 'OH1' and self.oh1.getRow() != 'Both':
+        elif position == 'OH1' and self.oh1.get_row() != 'Both':
             print("The Outside Hitter 1 already has a substitute.")
             return
-        elif position == 'OH2' and self.oh2.getRow() != 'Both':
+        elif position == 'OH2' and self.oh2.get_row() != 'Both':
             print("The Outside Hitter 2 already has a substitute.")
             return
 
@@ -202,18 +202,18 @@ class Lineup:
             if position == 'S':
                 while subs_position not in VALID_SUBS[position]:
                     subs_position = input("Please provide a valid position for the sub of a setter (S, RS, DS): ").upper()
-                self.setter.setSub(new_name, subs_position, player_row)
+                self.setter.set_sub(new_name, subs_position, player_row)
                 
             elif position == 'RS':
                 while subs_position not in VALID_SUBS[position]:
                     subs_position = input("Please provide a valid position for the sub of a right side (S, RS, DS): ").upper()
                 print(new_name, subs_position, player_row)
-                self.rs.setSub(new_name, subs_position, player_row)
+                self.rs.set_sub(new_name, subs_position, player_row)
             
         elif position == 'OH1':
-            self.oh1.setSub(new_name, "DS", player_row)
+            self.oh1.set_sub(new_name, "DS", player_row)
         elif position == 'OH2':
-            self.oh2.setSub(new_name, "DS", player_row)
+            self.oh2.set_sub(new_name, "DS", player_row)
         
         self.reset_rotations()
     def _delete_substitution(self):
@@ -235,28 +235,28 @@ class Lineup:
             return 
         
         # if row is set to 'Both,' they don't have an existing substitute
-        if position == 'S' and self.setter.getRow() == 'Both':
+        if position == 'S' and self.setter.get_row() == 'Both':
             print("The Setter has no substitute to delete.")
             return
-        elif position == 'RS' and self.rs.getRow() == 'Both':
+        elif position == 'RS' and self.rs.get_row() == 'Both':
             print("The Right Side has no substitute to delete.")
             return
-        elif position == 'OH1' and self.oh1.getRow() == 'Both':
+        elif position == 'OH1' and self.oh1.get_row() == 'Both':
             print("The Outside Hitter 1 has no substitute to delete.")
             return
-        elif position == 'OH2' and self.oh2.getRow() == 'Both':
+        elif position == 'OH2' and self.oh2.get_row() == 'Both':
             print("The Outside Hitter 2 has no substitute to delete.")
             return
 
         # delete substitute if one exists
         if position == 'S':
-            self.setter.deleteSub()
+            self.setter.delete_sub()
         elif position == 'RS':
-            self.rs.deleteSub()
+            self.rs.delete_sub()
         elif position == 'OH1':
-            self.oh1.deleteSub()
+            self.oh1.delete_sub()
         elif position == 'OH2':
-            self.oh2.deleteSub()
+            self.oh2.delete_sub()
 
         self.reset_rotations()
 

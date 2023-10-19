@@ -10,7 +10,7 @@ class Volleyball_Rotations_Generator:
         self.court = Lineup()
     
     # ---- Display rotation option ---- # 
-    def displayRotation(self):
+    def display_rotation(self):
         # Finds user input of which rotation and if they want to display position
         rotation = _rotation_input()
         positions = _display_position_input()
@@ -55,17 +55,18 @@ class Volleyball_Rotations_Generator:
     # ---- Run the menu until user quits ---- # 
     def run_menu(self):
         user_input = self.menu.get_user_input()
-        while user_input != 3:
-            if user_input == 2:
-                self.edit_rotation()
-            elif user_input == 1:
-                self.displayRotation()
-            user_input = self.menu.get_user_input()
-    
-    # ---- Sends farewell message ---- #
-    def end(self):
-        print("\nThank you for using our generator. Hope to see you again!\n")
         
+        while user_input != 3:
+            if user_input == 1:
+                self.display_rotation()
+            elif user_input == 2:
+                self.edit_rotation()
+            
+            user_input = self.menu.get_user_input()
+        
+        # Prints this when user quits
+        print("\nThank you for using our generator. Hope to see you again!\n")
+
 # ---- Display Rotations private methods ---- #
 def _display_position_input():
     # Grabs user input 
@@ -98,20 +99,20 @@ def _print_rotations(court: Lineup, positions: bool):
         backRow: tuple = court.get_backrow()
 
         # 6 players for current specified rotation
-        a = frontRow[0].getName()
-        b = frontRow[1].getName()
-        c = frontRow[2].getName()
-        d = backRow[0].getName()
-        e = backRow[1].getName()
-        f = backRow[2].getName()
+        a = frontRow[0].get_name()
+        b = frontRow[1].get_name()
+        c = frontRow[2].get_name()
+        d = backRow[0].get_name()
+        e = backRow[1].get_name()
+        f = backRow[2].get_name()
 
         if positions:   # if positions are to be displayed, assign each position to default variables
-            p1 = frontRow[0].getPosition()
-            p2 = frontRow[1].getPosition()
-            p3 = frontRow[2].getPosition()
-            p4 = backRow[0].getPosition()
-            p5 = backRow[1].getPosition()
-            p6 = backRow[2].getPosition()
+            p1 = frontRow[0].get_position()
+            p2 = frontRow[1].get_position()
+            p3 = frontRow[2].get_position()
+            p4 = backRow[0].get_position()
+            p5 = backRow[1].get_position()
+            p6 = backRow[2].get_position()
 
             # print with equally spaced columns (15 characters wide)
             print(f'|{a + " (" + p1 + ")":^15}|{b + " (" + p2 + ")":^15}|{c + " (" + p3 + ")":^15}|')

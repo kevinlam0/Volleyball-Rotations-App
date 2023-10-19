@@ -13,30 +13,30 @@ class Player:
         
         # Look for sub if the player does not play both rows
         if not self.row == "Both" and sub == None and not lib:
-            self.findSub()
+            self.find_sub()
         else:
             self.sub = sub
          
-    def getName(self):
+    def get_name(self) -> str:
         return self.name
     
-    def getPosition(self):
+    def get_position(self) -> str:
         return self.position
     
-    def getSub(self):
+    def get_sub(self):
         return self.sub
     
-    def getRow(self):
+    def get_row(self) -> str:
         return self.row
     
-    def findSub(self):
+    def find_sub(self):
         if self.row == "Front":
-            self.sub = Player(input("Who is " + self.name + "'s back-row sub?: "), "DS", "Back", sub = self)
+            self.set_sub(input("Who is " + self.name + "'s back-row sub?: "), "DS", "Back")
             
         elif self.row == "Back":
-            self.sub = Player(input("Who is " + self.name + "'s front-row sub?: "), input("What is this player's position?: "), "Front", sub = self)
+            self.set_sub(input("Who is " + self.name + "'s front-row sub?: "), input("What is this player's position?: "), "Front")
     
-    def setSub(self, name, position, row):
+    def set_sub(self, name, position, row):
         row = row.lower()
         if row == "front":
             self.sub = Player(name, position, row, sub = self)
@@ -45,7 +45,7 @@ class Player:
             self.sub = Player(name, position, row, sub = self)
             self.row = "Front"
             
-    def deleteSub(self):
+    def delete_sub(self):
         self.sub = None
         self.row = "Both"
     
