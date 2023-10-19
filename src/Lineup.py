@@ -277,6 +277,3 @@ def _make_player_lib(position: str) -> Player:
     row = "Back" if position.upper() == "L" else "Front"
     message = POSITION_MESSAGE.get(position)
     return Player(input(message), position, row, lib=True)
-    
-if __name__ == "__main__":
-    hello = Lineup()
