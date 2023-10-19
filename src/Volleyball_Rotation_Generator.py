@@ -8,7 +8,7 @@ class Volleyball_Rotations_Generator:
     def __init__(self):
         self.menu = Menu()
         self.court = Lineup()
-            
+    # ---- Display rotation option ---- # 
     def displayRotation(self):
         rotation, positions = _find_display_user_input()
         
@@ -19,12 +19,11 @@ class Volleyball_Rotations_Generator:
         else:
             print("\nRotation " + str(rotation))
             self._display_rotation_helper(rotation, positions)      
-        
     def _display_rotation_helper(self, rotation: int, position: bool):
         self.court.rotate(rotation)
         _print_rotations(self.court, position)
         self.court.reset_rotations()
-        
+    # ---- Edit lineup option ---- # 
     def edit_rotation(self):
         print("\nPlease select a menu option by typing it in (1-3):")
         print("1. Edit a player")
@@ -41,7 +40,7 @@ class Volleyball_Rotations_Generator:
             user_input = int(input("Please enter a valid menu option: "))
             
         self.court.edit_lineup(user_input)
-    
+    # Runs menu until user input "Quit"
     def run_menu(self):
         user_input = self.menu.get_user_input()
         while user_input != 3:
@@ -50,10 +49,11 @@ class Volleyball_Rotations_Generator:
             elif user_input == 1:
                 self.displayRotation()
             user_input = self.menu.get_user_input()
-        
+    # Sends farewell message 
     def end(self):
         print("\nThank you for using our generator. Hope to see you again!\n")
         
+# ---- Display Rotations private methods ---- #
 def _find_display_user_input():
     rotation = _rotation_input()
     position = _display_position_input()
