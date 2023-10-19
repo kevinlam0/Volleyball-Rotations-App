@@ -23,9 +23,8 @@ class Lineup:
     
     def __init__(self):
         self._input_player()
-        self._reset_rotations()
+        self.reset_rotations()
 
-        
     def _input_player(self):
         sub = _get_sub_input()
         
@@ -45,7 +44,7 @@ class Lineup:
         self.lib = _make_player_lib("L")
         self.mb1 = _make_player_lib("MB1")
         self.mb2 = _make_player_lib("MB2")
-    def _reset_rotations(self):
+    def reset_rotations(self):
         self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
         self.sittingMiddle = self.mb1
     def _validate_row(self):
@@ -96,6 +95,7 @@ class Lineup:
         q6: Player = self.quadrants.get("Q6")
         q1: Player = self.quadrants.get("Q1")
         return (q5, q6, q1)
+
 def _get_sub_input() -> str:
     sub = input("Will there subs? (i.e. More than 7 starting players) (y/n): ").lower()
     while "y" not in sub and "n" not in sub:

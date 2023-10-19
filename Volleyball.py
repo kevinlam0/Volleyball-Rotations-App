@@ -1,13 +1,13 @@
 from Player import Player
-import Lineup
+from Lineup import Lineup
 VALID_SUBS = {"S": {"S", "RS", "DS"}, "RS": {"S", "DS", "RS"}, "OH1": {"DS"}, "OH2": {"DS"}}
 
 class Volleyball_Rotations_Generator:
     introduced: bool
-    court: Lineup.Lineup
+    court: Lineup
     
     def __init__(self):
-        self.court = Lineup.Lineup()
+        self.court = Lineup()
         self.introduced = False
     
     # def inputPlayers(self):
@@ -102,13 +102,13 @@ class Volleyball_Rotations_Generator:
 
         try:
             # Get the players in the correct row
-            frontRow = self.court.get_frontrow()
-            backRow = self.court.get_backrow()
+            frontRow: tuple = self.court.get_frontrow()
+            backRow: tuple = self.court.get_backrow()
             # frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
             # backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
 
             # after assigning frontRow and backRow, reset rotations for future use
-            self.reset_rotations()
+            self.court.reset_rotations()
 
             # 6 players for current specified rotation
             a = frontRow[0].getName()
@@ -296,7 +296,6 @@ class Volleyball_Rotations_Generator:
         # Only printing the introduction once
         if self.introduced == False:    
             print("Hello! Welcome to the Volleyball Rotations App!\nPlease enter your players.")
-            self.inputPlayers()
             self.introduced = True
 
         # Print the options
@@ -317,9 +316,9 @@ class Volleyball_Rotations_Generator:
 
         return user_input
     
-    def reset_rotations(self):
-        self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
-        self.sittingMiddle = self.mb1
+    # def reset_rotations(self):
+    #     self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
+    #     self.sittingMiddle = self.mb1
         
 if __name__ == "__main__":
     generator = Volleyball_Rotations_Generator()
