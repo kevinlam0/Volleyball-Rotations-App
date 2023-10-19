@@ -8,21 +8,32 @@ class Volleyball_Rotations_Generator:
     def __init__(self):
         self.menu = Menu()
         self.court = Lineup()
+    
     # ---- Display rotation option ---- # 
     def displayRotation(self):
-        rotation, positions = _find_display_user_input()
+        # Finds user input of which rotation and if they want to display position
+        rotation = _rotation_input()
+        positions = _display_position_input()
         
+        # Display all rotations
         if rotation == 0:
             for i in range(1, 7):
                 print("\nRotation {a}".format(a = i))
                 self._display_rotation_helper(i, positions)  
+        
+        # Display specific rotation
         else:
             print("\nRotation " + str(rotation))
             self._display_rotation_helper(rotation, positions)      
+    
     def _display_rotation_helper(self, rotation: int, position: bool):
+        # Rotate to correct rotation
         self.court.rotate(rotation)
+        # Print the players on the court
         _print_rotations(self.court, position)
+        # Reset court for future use
         self.court.reset_rotations()
+    
     # ---- Edit lineup option ---- # 
     def edit_rotation(self):
         print("\nPlease select a menu option by typing it in (1-3):")
@@ -40,7 +51,8 @@ class Volleyball_Rotations_Generator:
             user_input = int(input("Please enter a valid menu option: "))
             
         self.court.edit_lineup(user_input)
-    # Runs menu until user input "Quit"
+    
+    # ---- Run the menu until user quits ---- # 
     def run_menu(self):
         user_input = self.menu.get_user_input()
         while user_input != 3:
@@ -49,23 +61,23 @@ class Volleyball_Rotations_Generator:
             elif user_input == 1:
                 self.displayRotation()
             user_input = self.menu.get_user_input()
-    # Sends farewell message 
+    
+    # ---- Sends farewell message ---- #
     def end(self):
         print("\nThank you for using our generator. Hope to see you again!\n")
         
 # ---- Display Rotations private methods ---- #
-def _find_display_user_input():
-    rotation = _rotation_input()
-    position = _display_position_input()
-    return rotation, position
 def _display_position_input():
+    # Grabs user input 
     display = input("Would you like to display every player's position? (y/n): ").lower()
+    # Valid argument handling
     while "y" not in display and "n" not in display:
         display = input("Please choose whether or not you want to display the rotations (y/n): ").lower()
     return True if "y" in display else False
 def _rotation_input():
+    # Header message 
     print('Which rotation would you like displayed?\nPlease give a number 1-6, or type 0 to display all rotations')
-    # Searching for a valid rotaton to display
+    # Argument handling 
     while True:
         try:    
             rotation = int(input("Rotation: "))
