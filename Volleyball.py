@@ -1,4 +1,7 @@
 from Player import Player
+import Lineup
+VALID_SUBS = {"S": {"S", "RS", "DS"}, "RS": {"S", "DS", "RS"}, "OH1": {"DS"}, "OH2": {"DS"}}
+
 class Volleyball_Rotations_Generator:
     setter: Player
     oh1: Player
@@ -10,10 +13,9 @@ class Volleyball_Rotations_Generator:
     sittingMiddle: Player
     quadrants: dict
     introduced: bool
-    VALID_SUBS = {"S": {"S", "RS", "DS"}, "RS": {"S", "DS", "RS"}, "OH1": {"DS"}, "OH2": {"DS"}}
     
     def __init__(self):
-        self.setter, self.rs, self.oh1, self.oh2, self.lib, self.mb1, self.mb2 = None, None, None, None, None, None, None
+        self.setter = self.rs = self.oh1 = self.oh2 = self.lib = self.mb1 = self.mb2 = None
         self.introduced = False
     
     def inputPlayers(self):
@@ -228,12 +230,12 @@ class Volleyball_Rotations_Generator:
             
             # Make sure the sub has a valid position for the person they are subbing in for. 
             if position == 'S':
-                while subs_position not in self.VALID_SUBS[position]:
+                while subs_position not in VALID_SUBS[position]:
                     subs_position = input("Please provide a valid position for the sub of a setter (S, RS, DS): ").upper()
                 self.setter.setSub(new_name, subs_position, player_row)
                 
             elif position == 'RS':
-                while subs_position not in self.VALID_SUBS[position]:
+                while subs_position not in VALID_SUBS[position]:
                     subs_position = input("Please provide a valid position for the sub of a right side (S, RS, DS): ").upper()
                 print(new_name, subs_position, player_row)
                 self.rs.setSub(new_name, subs_position, player_row)
@@ -399,24 +401,4 @@ if __name__ == "__main__":
                 generator.delete_substitution()
 
         user_menu_input = generator.menu()
-        
-        
-    # generator.inputPlayers()
-    # generator.makeHomeRotation()
-    # print("Kelly 5-1\n")
-    # generator.printRotations(generator.homeRotation)
-    # generator.inputPlayers()
-    # generator.makeHomeRotation()
-    # print("Niko 5-1")
-    # generator.printRotations(generator.homeRotation)
-    # # print("Kelly-Niko 6-2")
-    # generator.inputPlayers()
-    # generator.makeHomeRotation()
-    # print("Kelly-Niko 6-2")
-    # generator.printRotations(generator.homeRotation)
-    # generator.inputPlayers()
-    # generator.displayRotation(5, positions = True)
-    # generator.makeHomeRotation(positions=True)
-    # print("\nAdam-Niko 6-2")
-    # generator.printRotations(generator.homeRotation)
     
