@@ -3,97 +3,89 @@ import Lineup
 VALID_SUBS = {"S": {"S", "RS", "DS"}, "RS": {"S", "DS", "RS"}, "OH1": {"DS"}, "OH2": {"DS"}}
 
 class Volleyball_Rotations_Generator:
-    setter: Player
-    oh1: Player
-    oh2: Player
-    lib: Player 
-    mb1: Player
-    mb2: Player
-    rs: Player 
-    sittingMiddle: Player
-    quadrants: dict
     introduced: bool
+    court: Lineup.Lineup
     
     def __init__(self):
-        self.setter = self.rs = self.oh1 = self.oh2 = self.lib = self.mb1 = self.mb2 = None
+        self.court = Lineup.Lineup()
         self.introduced = False
     
-    def inputPlayers(self):
-        """
-        Gets the starting line up.
-        Fills in the quadrants defaulted at rotation 1.
-        Gets the max length of the names for formatting reasons. 
-        """
-        sub = input("Will there subs? (i.e. More than 7 starting players) (y/n): ").lower()
-        while "y" not in sub and "n" not in sub:
-            sub = input("Please input whether you want subs in your rotations (y/n): ").lower()
+    # def inputPlayers(self):
+    #     """
+    #     Gets the starting line up.
+    #     Fills in the quadrants defaulted at rotation 1.
+    #     Gets the max length of the names for formatting reasons. 
+    #     """
+    #     sub = input("Will there subs? (i.e. More than 7 starting players) (y/n): ").lower()
+    #     while "y" not in sub and "n" not in sub:
+    #         sub = input("Please input whether you want subs in your rotations (y/n): ").lower()
             
-        row_string = "Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "
+    #     row_string = "Will this player play back-row (\"Back\"), front-row (\"Front\"), or both (\"Both\")?: "
         
-        # If there will be subs
-        if "y" in sub:
-            self.setter = Player(name = input("Who is your starting Setter?: "), pos = "S", row = input(row_string))
-            self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = input(row_string))
+    #     # If there will be subs
+    #     if "y" in sub:
+    #         self.setter = Player(name = input("Who is your starting Setter?: "), pos = "S", row = input(row_string))
+    #         self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = input(row_string))
             
-            self.oh1 = Player(name = input("Who is your starting Outside Hitter 1?: "), pos = "OH1", row = input(row_string))
-            self.oh2 = Player(name = input("Who is your starting Outside Hitter 2?: "), pos= "OH2", row = input(row_string))
+    #         self.oh1 = Player(name = input("Who is your starting Outside Hitter 1?: "), pos = "OH1", row = input(row_string))
+    #         self.oh2 = Player(name = input("Who is your starting Outside Hitter 2?: "), pos= "OH2", row = input(row_string))
         
-        elif "n" in sub:
-            self.setter= Player(name = input("Who is your starting Setter?: "), pos = "S", row = "Both")
-            self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = "Both")
+    #     elif "n" in sub:
+    #         self.setter= Player(name = input("Who is your starting Setter?: "), pos = "S", row = "Both")
+    #         self.rs = Player(name = input("Who is your starting Right Side?: "), pos = "RS", row = "Both")
             
-            self.oh1 = Player(name = input("Who is your starting Outside Hitter 1?: "), pos = "OH1", row = "Both")
-            self.oh2 = Player(name = input("Who is your starting Outside Hitter 2?: "), pos= "OH2", row = "Both")
+    #         self.oh1 = Player(name = input("Who is your starting Outside Hitter 1?: "), pos = "OH1", row = "Both")
+    #         self.oh2 = Player(name = input("Who is your starting Outside Hitter 2?: "), pos= "OH2", row = "Both")
         
-        self.lib = Player(name = input("Who is your starting Libero?: "),pos = "L", row = "Back", lib = True)
-        self.mb1 = Player(name = input("Who is your starting Middle Blocker 1?: "), pos = "MB1", row = "Front", lib = True)
-        self.mb2 = Player(name = input("Who is your starting Middle Blocker 2?: "), pos = "MB2", row = "Front", lib = True)
+    #     self.lib = Player(name = input("Who is your starting Libero?: "),pos = "L", row = "Back", lib = True)
+    #     self.mb1 = Player(name = input("Who is your starting Middle Blocker 1?: "), pos = "MB1", row = "Front", lib = True)
+    #     self.mb2 = Player(name = input("Who is your starting Middle Blocker 2?: "), pos = "MB2", row = "Front", lib = True)
         
-        self.reset_rotations()
+    #     self.reset_rotations()
     
-    def rotate(self, rotation):
-        """
-        Rotates the players
-        """
+    # def rotate(self, rotation):
+    #     """
+    #     Rotates the players
+    #     """
         
-        for i in range(rotation - 1):
-            # Store the first person
-            first = self.quadrants.get("Q1")
+    #     for i in range(rotation - 1):
+    #         # Store the first person
+    #         first = self.quadrants.get("Q1")
             
-            # Shift all players over from the next higher quadrant
-            for i in range(1, 6):
-                self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
+    #         # Shift all players over from the next higher quadrant
+    #         for i in range(1, 6):
+    #             self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
             
-            # Put the first person in the missing quadrants
-            self.quadrants["Q6"] = first
+    #         # Put the first person in the missing quadrants
+    #         self.quadrants["Q6"] = first
         
-        self.validate_row()
+    #     self.validate_row()
 
-    def validate_row(self):
-        for i in range(1,7):
-            quadrant = "Q" + str(i)
+    # def validate_row(self):
+    #     for i in range(1,7):
+    #         quadrant = "Q" + str(i)
 
-            # if player is a backrow player but is in the front
-            if self.quadrants.get(quadrant).getRow() == "Back" and 2 <= i <= 4:
-                # is player is libero in the front
-                if self.quadrants.get(quadrant).getPosition() == "L" and 2 <= i <= 4:
-                    # calculate opposite quadrant to swap libero and middles in correct position
-                    if i <= 3:
-                        oppositeQuadrant = "Q" + str(i + 3)
-                    else:
-                        oppositeQuadrant = "Q" + str(i - 3)
+    #         # if player is a backrow player but is in the front
+    #         if self.quadrants.get(quadrant).getRow() == "Back" and 2 <= i <= 4:
+    #             # is player is libero in the front
+    #             if self.quadrants.get(quadrant).getPosition() == "L" and 2 <= i <= 4:
+    #                 # calculate opposite quadrant to swap libero and middles in correct position
+    #                 if i <= 3:
+    #                     oppositeQuadrant = "Q" + str(i + 3)
+    #                 else:
+    #                     oppositeQuadrant = "Q" + str(i - 3)
 
-                    self.quadrants[quadrant] = self.sittingMiddle
-                    self.sittingMiddle = self.quadrants.get(oppositeQuadrant)
-                    self.quadrants[oppositeQuadrant] = self.lib
-                # non-libero backrow player in front
-                else:
-                    sub: Player = self.quadrants.get(quadrant).getSub()
-                    self.quadrants[quadrant] = sub
-            # else if player is a frontrow player but is in the back
-            elif self.quadrants.get(quadrant).getRow() == "Front" and (i == 1 or i >= 5):
-                sub: Player = self.quadrants.get(quadrant).getSub()
-                self.quadrants[quadrant] = sub
+    #                 self.quadrants[quadrant] = self.sittingMiddle
+    #                 self.sittingMiddle = self.quadrants.get(oppositeQuadrant)
+    #                 self.quadrants[oppositeQuadrant] = self.lib
+    #             # non-libero backrow player in front
+    #             else:
+    #                 sub: Player = self.quadrants.get(quadrant).getSub()
+    #                 self.quadrants[quadrant] = sub
+    #         # else if player is a frontrow player but is in the back
+    #         elif self.quadrants.get(quadrant).getRow() == "Front" and (i == 1 or i >= 5):
+    #             sub: Player = self.quadrants.get(quadrant).getSub()
+    #             self.quadrants[quadrant] = sub
 
             
     def displayRotation(self, rotation, positions):
@@ -105,12 +97,15 @@ class Volleyball_Rotations_Generator:
             positions (boolean): This will tell the function whether or not they want the positions of the players printed. 
         """
         # rotate appropriate amount of times to get to correct rotation
-        self.rotate(rotation)
+        # self.rotate(rotation)
+        self.court.rotate(rotation)
 
         try:
             # Get the players in the correct row
-            frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
-            backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
+            frontRow = self.court.get_frontrow()
+            backRow = self.court.get_backrow()
+            # frontRow = (self.quadrants.get("Q4"), self.quadrants.get("Q3"), self.quadrants.get("Q2"))
+            # backRow = (self.quadrants.get("Q5"), self.quadrants.get("Q6"), self.quadrants.get("Q1"))
 
             # after assigning frontRow and backRow, reset rotations for future use
             self.reset_rotations()
