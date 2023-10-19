@@ -53,6 +53,31 @@ class Lineup:
     def reset_rotations(self):
         self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
         self.sittingMiddle = self.mb1
+    def get_frontrow(self) -> tuple:
+        q4: Player = self.quadrants.get("Q4")
+        q3: Player = self.quadrants.get("Q3")
+        q2: Player = self.quadrants.get("Q2")
+        return (q4, q3, q2)
+    def get_backrow(self) -> tuple:
+        q5: Player = self.quadrants.get("Q5")
+        q6: Player = self.quadrants.get("Q6")
+        q1: Player = self.quadrants.get("Q1")
+        return (q5, q6, q1)
+
+    # ---- Rotate players in the lineup ---- # 
+    def rotate(self, rotation: int):
+        for i in range(rotation - 1):
+            # Store the first person
+            first = self.quadrants.get("Q1")
+            
+            # Shift all players over from the next higher quadrant
+            for i in range(1, 6):
+                self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
+            
+            # Put the first person in the missing quadrants
+            self.quadrants["Q6"] = first
+        
+        self._validate_row()
     def _validate_row(self):
         for i in range(1,7):
             quadrant = "Q" + str(i)
@@ -78,37 +103,16 @@ class Lineup:
             elif self.quadrants.get(quadrant).getRow() == "Front" and (i == 1 or i >= 5):
                 sub: Player = self.quadrants.get(quadrant).getSub()
                 self.quadrants[quadrant] = sub    
-    def rotate(self, rotation: int):
-        for i in range(rotation - 1):
-            # Store the first person
-            first = self.quadrants.get("Q1")
-            
-            # Shift all players over from the next higher quadrant
-            for i in range(1, 6):
-                self.quadrants["Q" + str(i)] = self.quadrants.get("Q" + str(i + 1))
-            
-            # Put the first person in the missing quadrants
-            self.quadrants["Q6"] = first
-        
-        self._validate_row()
-    def get_frontrow(self) -> tuple:
-        q4: Player = self.quadrants.get("Q4")
-        q3: Player = self.quadrants.get("Q3")
-        q2: Player = self.quadrants.get("Q2")
-        return (q4, q3, q2)
-    def get_backrow(self) -> tuple:
-        q5: Player = self.quadrants.get("Q5")
-        q6: Player = self.quadrants.get("Q6")
-        q1: Player = self.quadrants.get("Q1")
-        return (q5, q6, q1)
+
+    # ---- Edit Lineup ---- #
     def edit_lineup(self, edit: int):
         if edit == 1:
             self._edit_player()
         elif edit == 2:
             self._add_substitution()
         elif edit == 3:
-            self._delete_substitution()
-    
+            self._delete_substitution()     
+    # - Specific private lineup edit methods - #
     def _edit_player(self):
         """
         This function edits the starters
@@ -256,6 +260,7 @@ class Lineup:
 
         self.reset_rotations()
 
+# ---- Private helper methods ---- #
 def _get_sub_input() -> str:
     sub = input("Will there subs? (i.e. More than 7 starting players) (y/n): ").lower()
     while "y" not in sub and "n" not in sub:
