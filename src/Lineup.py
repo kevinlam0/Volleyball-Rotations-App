@@ -1,4 +1,4 @@
-from Player import Player
+from src.Player import Player
 
 POSITION_MESSAGE = {
     "S": "Who is your starting Setter?: ",

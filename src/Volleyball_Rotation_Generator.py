@@ -1,5 +1,5 @@
-from Player import Player
-from Lineup import Lineup
+from src.Player import Player
+from src.Lineup import Lineup
 
 class Volleyball_Rotations_Generator:
     introduced: bool
