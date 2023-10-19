@@ -1,13 +1,14 @@
-from src.Player import Player
-from src.Lineup import Lineup
+from Player import Player
+from Lineup import Lineup
+from Menu import Menu
 
 class Volleyball_Rotations_Generator:
-    introduced: bool
     court: Lineup
+    menu: Menu
     
     def __init__(self):
+        self.menu = Menu()
         self.court = Lineup()
-        self.introduced = False
     
     # def inputPlayers(self):
     #     """
@@ -302,36 +303,17 @@ class Volleyball_Rotations_Generator:
 
     #     self.reset_rotations()
 
-    def menu(self) -> int:
-        """
-        This will be the menu that asks for the user's input of what they want to do
-        Returns:
-            int: This will tell us what the user wants to do
-        """
+    def run_menu(self):
+        user_input = self.menu.get_user_input()
+        while user_input != 3:
+            if user_input == 2:
+                self.edit_rotation()
+            elif user_input == 1:
+                self.displayRotation()
+            user_input = self.menu.get_user_input()
         
-        # Only printing the introduction once
-        if self.introduced == False:    
-            print("Hello! Welcome to the Volleyball Rotations App!\nPlease enter your players.")
-            self.introduced = True
-
-        # Print the options
-        print("\nPlease select a menu option by typing it in (1-3):")
-        print("1. Display a rotation")
-        print("2. Edit a rotation")
-        print("3. Quit")
-
-        # Asking for the users' input until they provide a valid input. 
-        try:
-            user_input = int(input())
-
-        except:
-            user_input = int(input("Please enter a valid menu option: "))
-
-        while not (1 <= user_input <= 3):
-            user_input = int(input("Please enter a valid menu option: "))
-
-        return user_input
-    
+    def ending_message(self):
+        print("\nThank you for using our generator. Hope to see you again!\n")
     # def reset_rotations(self):
     #     self.quadrants = {"Q1": self.setter, "Q2": self.oh1, "Q3": self.mb2, "Q4": self.rs, "Q5": self.oh2, "Q6": self.lib}
     #     self.sittingMiddle = self.mb1
