@@ -13,7 +13,7 @@ class Player:
         
         # Look for sub if the player does not play both rows
         if not self.row == "Both" and sub == None and not lib:
-            self.findSub(self.row)
+            self.findSub()
         else:
             self.sub = sub
          
@@ -29,11 +29,11 @@ class Player:
     def getRow(self):
         return self.row
     
-    def findSub(self, row):
-        if row == "Front":
+    def findSub(self):
+        if self.row == "Front":
             self.sub = Player(input("Who is " + self.name + "'s back-row sub?: "), "DS", "Back", sub = self)
             
-        elif row == "Back":
+        elif self.row == "Back":
             self.sub = Player(input("Who is " + self.name + "'s front-row sub?: "), input("What is this player's position?: "), "Front", sub = self)
     
     def setSub(self, name, position, row):
@@ -58,7 +58,7 @@ def _handle_position(pos: str) -> str:
     playersPosition = pos.upper()
     while (playersPosition not in VALID_POSITIONS):
         playersPosition = input("Please input a valid position (S, OH1, OH2, RS, L, MB1, MB2): ").upper()
-    return playersPosition
+    return playersPosition.upper()
 
 def _handle_row(row: str) -> str:
     row = row.lower()
