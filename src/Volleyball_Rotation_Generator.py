@@ -124,8 +124,7 @@ def _print_rotations(court: Lineup, positions: bool):
     except: 
         print("Something wrong occurred while creating strings of front-row and back-row.")
 
-    
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # generator = Volleyball_Rotations_Generator()
 
     # user_menu_input = generator.menu()
@@ -178,4 +177,4 @@ if __name__ == "__main__":
 
         # user_menu_input = generator.menu()
     
-    pass
+    # pass
